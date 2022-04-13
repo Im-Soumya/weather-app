@@ -66,7 +66,7 @@ const StyledBox = styled(Box)`
     })};
     &:hover {
       background-color: #E9A6A6;
-      color: #3F3351;
+      color: #2c2a4a;
     }`
   }
 `;
