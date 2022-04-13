@@ -158,7 +158,7 @@ const GetForecast = () => {
 
       <Box>
         <AppBar
-          sx={{ backgroundColor: "#1F1D36" }}
+          sx={{ backgroundColor: "#2c2a4a" }}
         >
           <Toolbar>
             <IconButton
