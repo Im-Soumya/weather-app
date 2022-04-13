@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Details from "./Details";
-import Image from "./Image";
 import Box from '@mui/material/Box';
-import TextField from "@mui/material/TextField";
-import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Alert, IconButton, Collapse, AppBar, Toolbar, Typography, InputBase } from "@mui/material";
+import { IconButton, AppBar, Toolbar, Typography, InputBase, Snackbar } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import CloudIcon from '@mui/icons-material/Cloud';
 import { styled, alpha } from '@mui/material/styles';
-import { AddBoxTwoTone } from "@mui/icons-material";
 
-const commonStyles = {
-  bgColor: "background.paper",
-  m: 1,
-  border: 1,
-  width: "2.5rem",
-  height: "2.5rem",
-}
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -63,12 +52,43 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const StyledBox = styled(Box)`
+  ${({ theme }) =>
+    ` cursor: pointer;
+    border: 2px solid #E9A6A6;
+    color: #E9A6A6;
+    margin-left: 15px;
+    border-radius: 50%;
+    padding: 0 2px;
+    transition: ${theme.transitions.create(['background-color'], {
+      duration: theme.transitions.duration.standard,
+    })};
+    &:hover {
+      background-color: #E9A6A6;
+      color: #3F3351;
+    }`
+  }
+`;
+
+
 const GetForecast = () => {
   const [city, setCity] = useState("")
   const [weather, setWeather] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [isOpen, setIsOpen] = useState(true)
+  // const [isOpen, setIsOpen] = useState(true)
+  const [state, setState] = React.useState({
+    isOpen: true,
+    vertical: 'bottom',
+    horizontal: 'left',
+  });
+
+  const { vertical, horizontal, isOpen } = state;
+
+  const handleClose = () => {
+    setState({ ...state, isOpen: false });
+    setError(false)
+  };
 
   useEffect(() => {
     getCurrentLocationWeather();
@@ -102,38 +122,44 @@ const GetForecast = () => {
         .then(res => res.json())
         .then(res => setWeather(res))
         .then(() => setIsLoading(false))
+        .catch((e) => {
+          setError(e.message)
+          console.log(e.message)
+        })
     })
   }
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  )
 
   return (
     <div>
       {error && (
-        <Box sx={{ width: "100%" }}>
-          <Collapse in={isOpen}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  size="small"
-                  onClick={() => {
-                    setIsOpen(false)
-                    setError(null)
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {error}
-            </Alert>
-          </Collapse>
-        </Box>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          autoHideDuration={6000}
+          open={isOpen}
+          onClose={handleClose}
+          message={error}
+          key={vertical + horizontal}
+          action={action}
+        />
       )}
 
       <Box>
-        <AppBar>
+        <AppBar
+          sx={{ backgroundColor: "#1F1D36" }}
+        >
           <Toolbar>
             <IconButton
               size="large"
@@ -147,7 +173,7 @@ const GetForecast = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{ flexGrow: 1, marginLeft: "175px", display: { xs: "none", sm: "inline-block" } }}
             >
               the.weather
             </Typography>
@@ -164,36 +190,38 @@ const GetForecast = () => {
                 />
               </Search>
             </form>
-            <Box
-              sx={{
-                ...commonStyles,
-                borderColor: "#ffffff",
-                marginLeft: 4,
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-
+            <StyledBox
               onClick={getCurrentLocationWeather}
             >
               <FmdGoodIcon
                 sx={{
-                  p: 1
+                  p: 0.7,
+                  marginTop: "1px"
                 }}
                 fontSize="medium"
               />
-            </Box>
+            </StyledBox>
           </Toolbar>
         </AppBar>
       </Box>
 
       {isLoading ? (
-        <Box size={20} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Box size={20} sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "150px" }}>
           <CircularProgress color="secondary" />
         </Box>
       ) : (
         <>
+          <div className="toolbar_gap"></div>
           <Details weather={weather} />
           {/* <Image weather={weather} /> */}
+
+          {/* <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            open={open}
+            onClose={handleClose}
+            message="I love snacks"
+            key={vertical + horizontal}
+          /> */}
         </>
       )
       }

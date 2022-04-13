@@ -6,7 +6,7 @@ import GetForecast from "./components/GetForecast";
 const theme = createTheme({
   palette: {
     secondary: {
-      main: "#282c34"
+      main: "#EEEEEE"
     },
     warning: {
       main: "#0077b6"
