@@ -76,7 +76,6 @@ const GetForecast = () => {
   const [weather, setWeather] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  // const [isOpen, setIsOpen] = useState(true)
   const [state, setState] = React.useState({
     isOpen: true,
     vertical: 'bottom',
@@ -175,7 +174,7 @@ const GetForecast = () => {
               component="div"
               sx={{ flexGrow: 1, marginLeft: "175px", display: { xs: "none", sm: "inline-block" } }}
             >
-              the.weather
+              The Weather
             </Typography>
             <form onSubmit={getWeatherCondition}>
               <Search>
@@ -214,14 +213,6 @@ const GetForecast = () => {
           <div className="toolbar_gap"></div>
           <Details weather={weather} />
           {/* <Image weather={weather} /> */}
-
-          {/* <Snackbar
-            anchorOrigin={{ vertical, horizontal }}
-            open={open}
-            onClose={handleClose}
-            message="I love snacks"
-            key={vertical + horizontal}
-          /> */}
         </>
       )
       }

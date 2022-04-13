@@ -26,7 +26,7 @@ const Details = ({ weather }) => {
             <img
               className="weather_icon"
               src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-              alt="icon of weather"
+              alt="weather-icon"
             />
           </div>
           <div className="details_box">
