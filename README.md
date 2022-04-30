@@ -2,6 +2,8 @@
 
 Link: https://im-soumya.github.io/weather-app/
 
+![Weather App](https://user-images.githubusercontent.com/91958667/166110143-fd4fcb6b-c0a8-49e7-b6cb-873aadaed434.png)
+
 Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
